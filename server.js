@@ -10,6 +10,7 @@ const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
 
+// Express Middleware
 const app = express();
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -19,7 +20,7 @@ app.use(express.static(path.join(__dirname, './public')));
 // RESTful Routes for CRUD operations //////////////////////////////////////////
 
 // Create (Crud) -- collection route
-app.post('/todo', (req, res) => {
+app.post('./datastore/data', (req, res) => {
   Todo.create(req.body.todoText, (err, newTodo) => {
     if (err) {
       res.sendStatus(400);

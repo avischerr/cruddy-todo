@@ -3,14 +3,25 @@ const path = require('path');
 const _ = require('underscore');
 const counter = require('./counter');
 
-var items = {};
+// No longer need this, store in file system instead
+// var items = {};
 
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
+// var fileNameList = {id: 0, text: ''};
+// Do something here to iterate over files in data and add their names and text into fileNameList
+
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId();
-  items[id] = text;
-  callback(null, { id, text });
+  var id = counter.getNextUniqueId(() => {});
+  var path = './datastore/data' + id + '.txt'
+  fs.writeFile(path, text, [], (err, file) => {
+    if (err) {
+      callback(err, null)
+    } else {
+      callback(null, file)
+      console.log('Todo item saved!')
+    }
+  });
 };
 
 exports.readAll = (callback) => {
